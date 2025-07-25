@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "unsafeafkpro",
+  "version": "${version}",
+  "name": "UnSafeAFKPro",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/unsafeafkpro/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "online.kbpf.unsafeafkpro.client.UnsafeAFKProDataGenerator"
+    ],
+    "client": [
+      "online.kbpf.unsafeafkpro.client.UnsafeAFKProClient"
+    ],
+    "main": [
+      "online.kbpf.unsafeafkpro.Unsafeafkpro"
+    ]
+  },
+  "mixins": [
+    "unsafeafkpro.mixins.json",
+    "unsafeafkpro.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
