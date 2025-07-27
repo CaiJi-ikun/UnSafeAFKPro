@@ -56,6 +56,7 @@ public class TntDamageHudElement implements HudElement {
             // 遍历世界中的所有实体
             int count = 0;
             TNTList.clear();
+            float Health = client.player.getHealth();
             for (Entity entity : client.world.getEntities()) {
                 if (!(entity instanceof TntEntity tnt)) {
                     continue;
@@ -83,7 +84,9 @@ public class TntDamageHudElement implements HudElement {
 
                 TNTList.add(new TNTValue("TNT", (float) distance, finalDamage, fuseSeconds));
 
-                if (finalDamage > client.player.getHealth() && fuseTicks <= 5 && timer <= 0 && modConfig.isSafeTNT()) {
+                if (fuseTicks <= 5 && timer <= 0 && modConfig.isSafeTNT()) {
+                    Health =- finalDamage;
+                    if(Health > 0.5) continue;
                     String messageToSend = modConfig.getSafeAFKText();
                     if (!(messageToSend == null || messageToSend.trim().isEmpty())) {
                         client.player.networkHandler.sendChatMessage(messageToSend);
