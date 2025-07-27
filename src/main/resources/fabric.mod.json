@@ -3,9 +3,13 @@
   "id": "unsafeafkpro",
   "version": "${version}",
   "name": "UnSafeAFKPro",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Safer AFK",
+  "authors": [
+    "CaiJi"
+  ],
+  "contact": {
+    "sources": "https://github.com/CaiJi-ikun/UnSafeAFKPro"
+  },
   "license": "GPL-3.0",
   "icon": "assets/unsafeafkpro/icon.png",
   "environment": "client",

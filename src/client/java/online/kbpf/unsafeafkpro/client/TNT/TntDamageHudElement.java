@@ -52,7 +52,6 @@ public class TntDamageHudElement implements HudElement {
 
             double MaxCalculationRadius = ConfigManager.getConfig().getTNTDistance();
             double MaxCalculationRadiusSQ = MaxCalculationRadius * MaxCalculationRadius;
-
             // 遍历世界中的所有实体
             int count = 0;
             TNTList.clear();
@@ -84,8 +83,8 @@ public class TntDamageHudElement implements HudElement {
 
                 TNTList.add(new TNTValue("TNT", (float) distance, finalDamage, fuseSeconds));
 
-                if (fuseTicks <= 5 && timer <= 0 && modConfig.isSafeTNT()) {
-                    Health =- finalDamage;
+                if (fuseTicks <= 10 && timer <= 0 && modConfig.isSafeTNT()) {
+                    Health = Health - finalDamage;
                     if(Health > 0.5) continue;
                     String messageToSend = modConfig.getSafeAFKText();
                     if (!(messageToSend == null || messageToSend.trim().isEmpty())) {
@@ -94,8 +93,10 @@ public class TntDamageHudElement implements HudElement {
                     }
                 }
             }
-            gameTick = client.world.getTime();
+
         }
+
+        gameTick = client.world.getTime();
 
         int yOffset = ConfigManager.getConfig().getTNTHudY();
         for (TNTValue tntValue : TNTList) {
