@@ -8,7 +8,9 @@
     "CaiJi"
   ],
   "contact": {
-    "sources": "https://github.com/CaiJi-ikun/UnSafeAFKPro"
+    "sources": "https://github.com/CaiJi-ikun/UnSafeAFKPro",
+    "modrinth": "https://modrinth.com/mod/unsafeafk",
+    "curseforge": "https://www.curseforge.com/minecraft/mc-mods/unsafeafk"
   },
   "license": "GPL-3.0",
   "icon": "assets/unsafeafkpro/icon.png",

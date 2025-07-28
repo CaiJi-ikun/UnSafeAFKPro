@@ -57,6 +57,9 @@ public class RegisterCommand {
                                     .then(ClientCommandManager.argument("X", IntegerArgumentType.integer())
                                             .then(ClientCommandManager.argument("Y", IntegerArgumentType.integer())
                                                     .executes(RegisterCommand::saveTNTLocation))))
+                            .then(ClientCommandManager.literal("tntnametag")
+                                    .then(ClientCommandManager.argument("true/false", BoolArgumentType.bool())
+                                            .executes(RegisterCommand::saveTNTNameTag)))
                     )
 
                     // 添加 "health" 子命令
@@ -73,7 +76,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("安全血量已设置为:" + healthValue));
+        context.getSource().sendFeedback(Text.literal("安全血量已设置为:  " + healthValue));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -91,19 +94,19 @@ public class RegisterCommand {
 
     private static int getAFKInfo(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         ModConfig modConfig = ConfigManager.getConfig();
-        context.getSource().sendFeedback(Text.literal("发送消息:" + ConfigManager.getConfig().getSafeAFKText() + " 安全血量:" + ConfigManager.getConfig().getSafeAFKHealth()));
+        context.getSource().sendFeedback(Text.literal("发送消息:  " + ConfigManager.getConfig().getSafeAFKText() + " 安全血量:  " + ConfigManager.getConfig().getSafeAFKHealth()));
         return Command.SINGLE_SUCCESS;
     }
 
     private static int getTNTInfo(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         ModConfig modConfig = ConfigManager.getConfig();
-        context.getSource().sendFeedback(Text.literal("tnt安全挂机:" + ConfigManager.getConfig().isSafeTNT()));
-        context.getSource().sendFeedback(Text.literal("tntHud:" + ConfigManager.getConfig().isTNTHud()));
-        context.getSource().sendFeedback(Text.literal("TNTHud显示位置X:" + ConfigManager.getConfig().getTNTHudX()));
-        context.getSource().sendFeedback(Text.literal("TNTHud显示位置Y:" + ConfigManager.getConfig().getTNTHudY()));
+        context.getSource().sendFeedback(Text.literal("TNT安全挂机:  " + ConfigManager.getConfig().isSafeTNT()));
+        context.getSource().sendFeedback(Text.literal("TNTHud:  " + ConfigManager.getConfig().isTNTHud()));
+        context.getSource().sendFeedback(Text.literal("TNTNameTag:  " + ConfigManager.getConfig().isTNTNameTag()));
+        context.getSource().sendFeedback(Text.literal("TNTHud显示位置X:  " + ConfigManager.getConfig().getTNTHudX()));
+        context.getSource().sendFeedback(Text.literal("TNTHud显示位置Y:  " + ConfigManager.getConfig().getTNTHudY()));
         context.getSource().sendFeedback(Text.literal("========================================="));
-        context.getSource().sendFeedback(Text.literal("TNTHud关闭仍会在后台计算相关数数值以用于safeTNT"));
-        context.getSource().sendFeedback(Text.literal("将safeTNT和TNTHud都关闭,后台会停止计算TNT数值"));
+        context.getSource().sendFeedback(Text.literal("将safeTNT,TNTHud和TNTNameTag都关闭,后台会停止计算TNT数值"));
         context.getSource().sendFeedback(Text.literal("safeTNT使用safeAFK聊天消息"));
         return Command.SINGLE_SUCCESS;
     }
@@ -116,7 +119,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:" + TNTHud));
+        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + TNTHud));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -128,7 +131,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:" + safeTNT));
+        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + safeTNT));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -142,8 +145,19 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:" + X + " " + Y));
+        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + X + " " + Y));
         return Command.SINGLE_SUCCESS;
     }
 
+    private static int saveTNTNameTag(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        final boolean TNTNameTag = BoolArgumentType.getBool(context, "true/false");
+
+        ModConfig modConfig = ConfigManager.getConfig();
+        modConfig.setTNTNameTag(TNTNameTag);
+        ConfigManager.setConfig(modConfig);
+        ConfigManager.saveConfig();
+
+        context.getSource().sendFeedback(Text.literal("TNTNameTag已设置为:  " + TNTNameTag));
+        return Command.SINGLE_SUCCESS;
+    }
 }

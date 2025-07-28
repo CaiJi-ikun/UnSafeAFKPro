@@ -4,7 +4,7 @@ public class ModConfig {
 
     private int safeAFKHealth;
     private String safeAFKText;
-    private boolean safeTNT, TNTHud;
+    private boolean safeTNT, TNTHud, TNTNameTag;
     private int TNTHudX, TNTHudY, TNTDistance;
 
 
@@ -15,7 +15,8 @@ public class ModConfig {
         TNTHudX = 10;
         TNTHudY = 10;
         TNTDistance = 10;
-        TNTHud = true;
+        TNTHud = false;
+        TNTNameTag = true;
     }
 
 
@@ -74,5 +75,13 @@ public class ModConfig {
 
     public void setSafeAFKText(String safeAFKText) {
         this.safeAFKText = safeAFKText;
+    }
+
+    public boolean isTNTNameTag() {
+        return TNTNameTag;
+    }
+
+    public void setTNTNameTag(boolean TNTNameTag) {
+        this.TNTNameTag = TNTNameTag;
     }
 }

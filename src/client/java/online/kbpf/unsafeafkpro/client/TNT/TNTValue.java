@@ -1,22 +1,26 @@
 package online.kbpf.unsafeafkpro.client.TNT;
 
-public class TNTValue {
-    private String Name;
-    private float distance, damage, fuseTime;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.TntEntity;
 
-    public TNTValue(String name, float distance, float damage, float fuseTime) {
-        Name = name;
+public class TNTValue {
+    private float distance, damage, fuseTime;
+    private Entity entity;
+
+
+    public TNTValue(Entity entity, float distance, float damage, float fuseTime) {
         this.distance = distance;
         this.damage = damage;
         this.fuseTime = fuseTime;
+        this.entity = entity;
     }
 
-    public String getName() {
-        return Name;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public float getDistance() {
