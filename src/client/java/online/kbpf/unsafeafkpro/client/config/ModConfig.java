@@ -1,11 +1,15 @@
 package online.kbpf.unsafeafkpro.client.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ModConfig {
 
     private int safeAFKHealth;
     private String safeAFKText;
     private boolean safeTNT, TNTHud, TNTNameTag;
     private int TNTHudX, TNTHudY, TNTDistance;
+    private Map<String, String> serverMessages = new HashMap<>();
 
 
     public ModConfig(){
@@ -19,7 +23,13 @@ public class ModConfig {
         TNTNameTag = true;
     }
 
+    public Map<String, String> getServerMessages() {
+        return serverMessages;
+    }
 
+    public void setServerMessages(Map<String, String> serverMessages) {
+        this.serverMessages = serverMessages;
+    }
 
     public boolean isTNTHud() {
         return TNTHud;

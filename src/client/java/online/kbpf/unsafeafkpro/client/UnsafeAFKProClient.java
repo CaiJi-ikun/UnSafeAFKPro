@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElement;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import online.kbpf.unsafeafkpro.client.TNT.TntDamageHudElement;
+import online.kbpf.unsafeafkpro.client.autoLogin.AutoLoginHandler;
 import online.kbpf.unsafeafkpro.client.commands.RegisterCommand;
 import online.kbpf.unsafeafkpro.client.config.ConfigManager;
 import net.minecraft.util.Identifier;
@@ -20,5 +21,6 @@ public class UnsafeAFKProClient implements ClientModInitializer {
         RegisterCommand.register();
         TntDamageHudElement tntHud = new TntDamageHudElement();
         HudElementRegistry.addLast(TNT_DAMAGE_HUD_ID, tntHud);
+        AutoLoginHandler.init();
     }
 }

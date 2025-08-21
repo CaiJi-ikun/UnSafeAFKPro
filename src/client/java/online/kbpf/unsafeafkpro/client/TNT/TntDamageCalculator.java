@@ -11,6 +11,9 @@ import net.minecraft.world.RaycastContext;
 
 public class TntDamageCalculator {
 
+
+
+
     /**
      * 计算单个TNT对目标实体可能造成的最大伤害。
      * @param tnt 爆炸源 TNT 实体
@@ -19,6 +22,7 @@ public class TntDamageCalculator {
      * @return 估算的伤害值
      */
     public static float getEstimatedDamage(TntEntity tnt, Entity entity, ClientWorld world) {
+        if(world.getDifficulty().getName().equals("peaceful")) return 0;
         // 获取TNT的爆炸威力。在TntEntity类中，默认为4.0F。
         // 如果你的mod可以获取到非公开字段，可以直接读取。否则，先使用默认值。
         float power = 4.0F; // 默认威力
@@ -42,14 +46,20 @@ public class TntDamageCalculator {
         }
 
         // 距离越近，衰减越小
-        double impact = (1.0 - (distance / explosionRadius));
+        double impact = (1.0 - (distance / explosionRadius)) * exposure;
+
 
         // 3. 计算基础伤害值
         // 这个公式是根据 Minecraft Wiki 和对游戏反混淆代码的研究得出的通用伤害公式
-        float baseDamage = (float)((impact * impact + impact) / 2.0 * 7.0 * (double)power + 1.0);
+        float baseDamage = (float)((impact * impact + impact) * 7.0 * (double)power + 1.0);
 
-        // 最终伤害 = 基础伤害 * 暴露比例
-        return baseDamage * exposure;
+        // 最终伤害
+
+        if(world.getDifficulty().getName().equals("easy"))
+            return (float) Math.min(baseDamage, baseDamage * 0.5 + 1);
+        if(world.getDifficulty().getName().equals("normal"))
+            return baseDamage;
+        return (float) (baseDamage * 1.5);
     }
 
     /**

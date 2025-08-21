@@ -11,10 +11,14 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 
 import online.kbpf.unsafeafkpro.client.config.ConfigManager;
 import online.kbpf.unsafeafkpro.client.config.ModConfig;
+
+import java.util.Map;
 
 
 @Environment(EnvType.CLIENT)
@@ -60,6 +64,15 @@ public class RegisterCommand {
                             .then(ClientCommandManager.literal("tntnametag")
                                     .then(ClientCommandManager.argument("true/false", BoolArgumentType.bool())
                                             .executes(RegisterCommand::saveTNTNameTag)))
+                    )
+                    .then(ClientCommandManager.literal("autologin")
+                            .then(ClientCommandManager.literal("info")
+                                    .executes(RegisterCommand::getAutoLogin))
+                            .then(ClientCommandManager.literal("text")
+                                    .then(ClientCommandManager.argument("message", StringArgumentType.string())
+                                            .executes(RegisterCommand::saveAutoLogin))
+                            )
+
                     )
 
                     // 添加 "health" 子命令
@@ -131,7 +144,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + safeTNT));
+        context.getSource().sendFeedback(Text.literal("SaveTNT已设置为:  " + safeTNT));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -160,4 +173,38 @@ public class RegisterCommand {
         context.getSource().sendFeedback(Text.literal("TNTNameTag已设置为:  " + TNTNameTag));
         return Command.SINGLE_SUCCESS;
     }
+
+    private static int saveAutoLogin(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+        final String message = StringArgumentType.getString(context, "message");
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!client.isIntegratedServerRunning() && client.getCurrentServerEntry() != null) {
+            ModConfig modConfig = ConfigManager.getConfig();
+            Map<String, String> map = modConfig.getServerMessages();
+            String address = client.getCurrentServerEntry().address;
+            map.put(address, message);
+
+            modConfig.setServerMessages(map);
+            ConfigManager.setConfig(modConfig);
+            ConfigManager.saveConfig();
+
+            context.getSource().sendFeedback(Text.literal("进入服务器时发送指令为:  " + modConfig.getServerMessages().get(address)));
+            return Command.SINGLE_SUCCESS;
+        }
+        else throw new RuntimeException("无法获取服务器ip");
+
+    }
+
+    private static int getAutoLogin(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
+
+        ModConfig modConfig = ConfigManager.getConfig();
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (!client.isIntegratedServerRunning() && client.getCurrentServerEntry() != null) {
+            context.getSource().sendFeedback(Text.literal("进入服务器时发送指令为:  " + modConfig.getServerMessages().get(client.getCurrentServerEntry().address)));
+            return Command.SINGLE_SUCCESS;
+        }
+        else throw new RuntimeException("无法获取服务器ip");
+
+    }
+
 }
