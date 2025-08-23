@@ -1,0 +1,16 @@
+{
+  "unsafeafk.command.safehealth": "Safe health has been set to: %1$s ",
+  "unsafeafk.command.safetext": "Command or message to send has been set to: %1$s ",
+  "unsafeafk.command.safetexthelp": "If the text is exit, the game will be exited. If it starts with /, the command will be executed. In other cases, the text will be sent.",
+  "unsafeafk.command.safetnt.safeafk": "TNT Safe AFK has been set to: %1$s ",
+  "unsafeafk.command.safetnt.hud": "TNTHud has been set to: %1$s ",
+  "unsafeafk.command.safetnt.nametag": "TNT NameTag has been set to: %1$s ",
+  "unsafeafk.command.safetnt.hudX": "TNTHud display position X has been set to: %1$s ",
+  "unsafeafk.command.safetnt.hudY": "TNTHud display position Y has been set to: %1$s ",
+  "unsafeafk.command.safetnt.info1": "If safeTNT, TNTHud and TNTNameTag are all disabled, TNT values will no longer be calculated in the background ",
+  "unsafeafk.command.safetnt.info2": "safeTNT uses the safeAFK chat message ",
+  "unsafeafk.command.autologin.text": "Command to send upon joining the server has been set to: %1$s ",
+  "unsafeafk.command.autologin.texthelp": "Only executed as a command, no need to include /",
+  "unsafeafk.command.autologin.error": "Unable to get server IP ",
+  "unsafeafk.exit": "Safety hang-up triggered"
+}

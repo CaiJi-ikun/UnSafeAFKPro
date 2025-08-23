@@ -1,0 +1,16 @@
+{
+  "unsafeafk.command.safehealth": "安全血量设置为:%1$s ",
+  "unsafeafk.command.safetext": "发送指令或消息设置为:%1$s ",
+  "unsafeafk.command.safetexthelp": "文本为exit时会退出游戏 开头为/时执行指令 其他情况时发送文本 ",
+  "unsafeafk.command.safetnt.safeafk": "TNT安全挂机设置为:%1$s ",
+  "unsafeafk.command.safetnt.hud": "TNTHud设置为:%1$s ",
+  "unsafeafk.command.safetnt.nametag": "TNTNameTag设置为:%1$s ",
+  "unsafeafk.command.safetnt.hudX": "TNTHud显示位置X设置为:%1$s ",
+  "unsafeafk.command.safetnt.hudY": "TNTHud显示位置Y设置为:%1$s ",
+  "unsafeafk.command.safetnt.info1": "将safeTNT,TNTHud和TNTNameTag都关闭,后台会停止计算TNT数值 ",
+  "unsafeafk.command.safetnt.info2": "safeTNT使用safeAFK聊天消息 ",
+  "unsafeafk.command.autologin.text": "进入服务器时发送指令设置为:%1$s ",
+  "unsafeafk.command.autologin.texthelp": "仅作为指令执行,无需带/ ",
+  "unsafeafk.command.autologin.error": "无法获取服务器ip ",
+  "unsafeafk.exit": "安全挂机触发"
+}

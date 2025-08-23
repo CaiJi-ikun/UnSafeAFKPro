@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 
 import online.kbpf.unsafeafkpro.client.config.ConfigManager;
@@ -89,7 +90,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("安全血量已设置为:  " + healthValue));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safehealth", healthValue));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -101,26 +102,32 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(net.minecraft.text.Text.literal("发送消息设置为:" + Text));
+        context.getSource().sendFeedback(net.minecraft.text.Text.translatable("unsafeafk.command.safetext", Text));
+        context.getSource().sendFeedback(net.minecraft.text.Text.translatable("unsafeafk.command.safetexthelp"));
         return Command.SINGLE_SUCCESS;
     }
 
     private static int getAFKInfo(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         ModConfig modConfig = ConfigManager.getConfig();
-        context.getSource().sendFeedback(Text.literal("发送消息:  " + ConfigManager.getConfig().getSafeAFKText() + " 安全血量:  " + ConfigManager.getConfig().getSafeAFKHealth()));
+        context.getSource().sendFeedback(
+                Text.translatable("unsafeafk.command.safetext", modConfig.getSafeAFKText())
+        );
+        context.getSource().sendFeedback(
+                Text.translatable("unsafeafk.command.safehealth", modConfig.getSafeAFKHealth())
+        );
         return Command.SINGLE_SUCCESS;
     }
 
     private static int getTNTInfo(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
         ModConfig modConfig = ConfigManager.getConfig();
-        context.getSource().sendFeedback(Text.literal("TNT安全挂机:  " + ConfigManager.getConfig().isSafeTNT()));
-        context.getSource().sendFeedback(Text.literal("TNTHud:  " + ConfigManager.getConfig().isTNTHud()));
-        context.getSource().sendFeedback(Text.literal("TNTNameTag:  " + ConfigManager.getConfig().isTNTNameTag()));
-        context.getSource().sendFeedback(Text.literal("TNTHud显示位置X:  " + ConfigManager.getConfig().getTNTHudX()));
-        context.getSource().sendFeedback(Text.literal("TNTHud显示位置Y:  " + ConfigManager.getConfig().getTNTHudY()));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.safeafk", modConfig.isSafeTNT()));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hud", modConfig.isTNTHud()));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.nametag", modConfig.isTNTNameTag()));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hudX", modConfig.getTNTHudX()));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hudY", modConfig.getTNTHudY()));
         context.getSource().sendFeedback(Text.literal("========================================="));
-        context.getSource().sendFeedback(Text.literal("将safeTNT,TNTHud和TNTNameTag都关闭,后台会停止计算TNT数值"));
-        context.getSource().sendFeedback(Text.literal("safeTNT使用safeAFK聊天消息"));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.info1"));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.info2"));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -132,7 +139,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + TNTHud));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hud", TNTHud));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -144,7 +151,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("SaveTNT已设置为:  " + safeTNT));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.safeafk", safeTNT));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -158,7 +165,8 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTHud已设置为:  " + X + " " + Y));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hudX", X));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.hudY", Y));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -170,7 +178,7 @@ public class RegisterCommand {
         ConfigManager.setConfig(modConfig);
         ConfigManager.saveConfig();
 
-        context.getSource().sendFeedback(Text.literal("TNTNameTag已设置为:  " + TNTNameTag));
+        context.getSource().sendFeedback(Text.translatable("unsafeafk.command.safetnt.nametag", TNTNameTag));
         return Command.SINGLE_SUCCESS;
     }
 
@@ -188,23 +196,24 @@ public class RegisterCommand {
             ConfigManager.setConfig(modConfig);
             ConfigManager.saveConfig();
 
-            context.getSource().sendFeedback(Text.literal("进入服务器时发送指令为:  " + modConfig.getServerMessages().get(address)));
+            context.getSource().sendFeedback(Text.translatable("unsafeafk.command.autologin.text", modConfig.getServerMessages().get(address)));
+            context.getSource().sendFeedback(Text.translatable("unsafeafk.command.autologin.texthelp"));
             return Command.SINGLE_SUCCESS;
-        }
-        else throw new RuntimeException("无法获取服务器ip");
+        } else throw new RuntimeException("无法获取服务器ip"); // 这里也要改成翻译
 
     }
 
     private static int getAutoLogin(CommandContext<FabricClientCommandSource> context) throws CommandSyntaxException {
-
         ModConfig modConfig = ConfigManager.getConfig();
         MinecraftClient client = MinecraftClient.getInstance();
         if (!client.isIntegratedServerRunning() && client.getCurrentServerEntry() != null) {
-            context.getSource().sendFeedback(Text.literal("进入服务器时发送指令为:  " + modConfig.getServerMessages().get(client.getCurrentServerEntry().address)));
+            context.getSource().sendFeedback(
+                    Text.translatable("unsafeafk.command.autologin.text", modConfig.getServerMessages().get(client.getCurrentServerEntry().address))
+            );
             return Command.SINGLE_SUCCESS;
-        }
-        else throw new RuntimeException("无法获取服务器ip");
+        } else throw new RuntimeException(I18n.translate("unsafeafk.command.autologin.error"));
 
     }
+
 
 }

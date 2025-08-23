@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerEntity;
 import online.kbpf.unsafeafkpro.client.config.ConfigManager;
+import online.kbpf.unsafeafkpro.client.tool.tool;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,8 +19,6 @@ public abstract class ClientPlayerEntityMixin {
     @Unique
     private float unsafeafkpro_previousHealth = -1.0f;
 
-    @Unique
-    private int timer = 0;
     /**
      * @Inject 注解告诉 Mixin 处理器将我们的代码注入到目标方法中。
      * method = "tick" 指定了我们要注入的目标是 tick() 方法。
@@ -28,7 +27,7 @@ public abstract class ClientPlayerEntityMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void onTick(CallbackInfo ci) {
 
-        if(timer > 0) timer--;
+
         // 将 this 转换为 ClientPlayerEntity 实例以访问其方法
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
 
@@ -45,19 +44,13 @@ public abstract class ClientPlayerEntityMixin {
         int safeHealthLevel = ConfigManager.getConfig().getSafeAFKHealth();
         String messageToSend = ConfigManager.getConfig().getSafeAFKText();
 
-        // 如果没有设置消息，则不执行任何操作
-        if (messageToSend == null || messageToSend.trim().isEmpty()) {
-            this.unsafeafkpro_previousHealth = currentHealth; // 仍然需要更新血量记录
-            return;
-        }
 
         // 核心逻辑：当 当前生命值 < 安全值 并且 当前生命值 < 上一刻的生命值
         // 这确保了只在生命值“刚刚下降”到阈值以下时触发一次
-        if (currentHealth < safeHealthLevel && currentHealth < this.unsafeafkpro_previousHealth && timer <= 0) {
+        if (currentHealth < safeHealthLevel && currentHealth < this.unsafeafkpro_previousHealth) {
 
             // 使用客户端网络处理器发送聊天消息到服务器
-            player.networkHandler.sendChatMessage(messageToSend);
-            timer = 20;
+            tool.exitGame();
         }
 
         // 在每一刻的最后，更新“上一刻的生命值”记录，为下一刻的比较做准备

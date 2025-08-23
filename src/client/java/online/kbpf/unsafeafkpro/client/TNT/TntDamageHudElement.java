@@ -14,6 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import online.kbpf.unsafeafkpro.client.config.ConfigManager;
 import online.kbpf.unsafeafkpro.client.config.ModConfig;
+import online.kbpf.unsafeafkpro.client.tool.tool;
 
 import java.util.ArrayList;
 
@@ -25,8 +26,6 @@ public class TntDamageHudElement implements HudElement {
     private final int COLOR_SAFE = 0x00FF00;   // 绿色
     private final int COLOR_DANGER = 0xFF0000; // 红色
     private final float MAX_FUSE_FOR_COLOR = 4.0f;    // TNT引信时间上限
-
-    private int timer = 0;
 
     private long gameTick = 0;
 
@@ -53,7 +52,7 @@ public class TntDamageHudElement implements HudElement {
 
 
         if (gameTick < client.world.getTime() || gameTick > client.world.getTime()) {
-            if(timer > 0) timer--;
+
 
             double MaxCalculationRadius = ConfigManager.getConfig().getTNTDistance();
             double MaxCalculationRadiusSQ = MaxCalculationRadius * MaxCalculationRadius;
@@ -107,14 +106,10 @@ public class TntDamageHudElement implements HudElement {
 
                 TNTList.add(new TNTValue(tnt, (float) distance, finalDamage, fuseSeconds));
 
-                if (fuseTicks <= 10 && timer <= 0 && modConfig.isSafeTNT()) {
+                if (fuseTicks <= 10 && modConfig.isSafeTNT()) {
                     Health = Health - finalDamage;
                     if(Health > 0.5) continue;
-                    String messageToSend = modConfig.getSafeAFKText();
-                    if (!(messageToSend == null || messageToSend.trim().isEmpty())) {
-                        client.player.networkHandler.sendChatMessage(messageToSend);
-                        timer = 40;
-                    }
+                    tool.exitGame();
                 }
             }
 
